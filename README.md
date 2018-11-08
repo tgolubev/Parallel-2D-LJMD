@@ -1,9 +1,8 @@
 # Parallelized interactive real time simulation of molecular dynamics
 
-
 Authors: Liam Clink, Zane Crawford, Forrest Glines, Timofey Golubev, Xukun Xiang
 
- Acknowledgements:
+Acknowledgements:
  Initial inspiration (with permission) for the molecular dynamics Model code is from
  the code found at: https://github.com/andeplane/molecular-dynamics-fys3150v.
 
@@ -27,7 +26,6 @@ Authors: Liam Clink, Zane Crawford, Forrest Glines, Timofey Golubev, Xukun Xiang
 
 
 ## Building
-============================================================
 To build with the model and view, run:
 ./configure 
 make
@@ -53,7 +51,6 @@ And run autoreconf
 
 
 ## Running
-============================================================
 The binary parallel2DLJMD will be in bin. If built with the view, by default
 task 0 will run the view and rest will run with the model. If built with the
 view disabled, all mpi tasks will run the model

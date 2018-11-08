@@ -1,5 +1,7 @@
 # Parallel 2D Molecular Dynamics Model
 
+By Timofey Golubev with help of Xukun Xiang
+
 ## Description
 This is a parallelized version of the 2D MD code using OpenMPI (Message Passing Interface).
 * The parallelization is done via domain decomposition in 1D along the x direction. 
