@@ -2,7 +2,7 @@
 // Implementation of the LennardJones class. Defines the Lennard Jones Interatomic potential
 // and contains functions to calculate the pairwise forces.
 
-// By: Timofey Golubev
+// By: Timofey Golubev with debugging help of Xukun Xiang.
 
 //------------------------------------------------------------------------------------------------------
 

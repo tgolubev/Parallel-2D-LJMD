@@ -19,12 +19,10 @@
 
  Technical details:
  This file allows to control most of the program parameters.
- Output is a movie.xyz file with atom positions which can allow to create animations in
- i.e Ovito. Additional system properties such as energies, temperature, pressure, density,
+ Additional system properties such as energies, temperature, pressure, density,
  diffusion coefficient can be output if desired by using StatisticsSampler class. Output
  can be made in SI of Lennard Jones units by using UnitConverter class.
- The frequency of output can be varied as desired. Of course, less frequent output, results
- in lower CPU time.
+ The frequency of output can be varied as desired.
 
  For a description of the molecular dynamics algorithms, see my report at:
  https://github.com/tgolubev/Computational-Physics-PHY905MSU/blob/master/Project4/molecular_dynamics/Report/Project4.pdf

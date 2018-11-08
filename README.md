@@ -24,30 +24,27 @@ Acknowledgements:
  View contains the code for OpenGL real-time visualization
  Controller contains code for interacting with the XBox Controller
 
-
 ## Building
 To build with the model and view, run:
-./configure 
-make
+    ./configure 
+    make
 
-
-FIXME: disable-view not working
 To build without the view and just the model, run:
-./configure --disable-view
+    ./configure --disable-view
 
 To clear the files made using configure, for example when switching between
 building with and without a view run 
-make distclean
+    make distclean
 
 If you need to add more sources files, add them to Makefile.am, then run
-autoreconf 
-before running ./configure again
+`autoreconf `
+before running `./configure` again
 
-If ./configure has problems finding a C compiler, add you mpi C and C++
+If `./configure` has problems finding a C compiler, add your mpi C and C++
 compilers to the lines in configure.ac
-AC_PROG_CC([mpicc])
-AC_PROG_CXX([mpic++ mpicxx])
-And run autoreconf
+    AC_PROG_CC([mpicc])
+    AC_PROG_CXX([mpic++ mpicxx])
+And run `autoreconf`
 
 
 ## Running

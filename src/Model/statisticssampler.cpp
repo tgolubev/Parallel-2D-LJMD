@@ -121,7 +121,7 @@ void StatisticsSampler::sampleDiffusionCoeff(System &system)
     double displacements_sqrd_sum = 0.0;  //reset displacements sum
     for (Atom *atom : system.atoms()) {
         vec2 total_displacement;
-        for(int j=0;j<2;j++){
+        for (int j = 0; j < 2; j++) {
             //takes into account displacement within 1 cell plus displacement due to crossing boundaries into neighboring image cells (PBCs)
             total_displacement[j] = (atom->position[j] - atom->initial_position(j)) + atom->num_bndry_crossings[j]*system.systemSize(j);
         }
