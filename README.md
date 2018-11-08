@@ -1,10 +1,13 @@
 # Parallelized interactive real time simulation of molecular dynamics
 
+The GitHub Repo of this code is: https://github.com/tgolubev/Parallel-2D-LJMD
+
 Authors: Liam Clink, Zane Crawford, Forrest Glines, Timofey Golubev, Xukun Xiang
 
 Acknowledgements:
  Initial inspiration (with permission) for the molecular dynamics Model code is from
  the code found at: https://github.com/andeplane/molecular-dynamics-fys3150v.
+ 
 
 ## Description:
 
@@ -20,20 +23,23 @@ Acknowledgements:
  https://github.com/tgolubev/Computational-Physics-PHY905MSU/blob/master/Project4/molecular_dynamics/Report/Project4.pdf
  
 ## Code structure:
- Model contains the parallelized molecular dynamics calculations
- View contains the code for OpenGL real-time visualization
- Controller contains code for interacting with the XBox Controller
+ Model contains the parallelized molecular dynamics calculations (By Timofey Golubev and Xukun Xiang)
+ View contains the code for OpenGL real-time visualization (By Liam Clink and Zane Crawford)
+ Controller contains code for interacting with the XBox Controller (By Forrest Glines)
 
 ## Building
 To build with the model and view, run:
+    
     ./configure 
     make
 
 To build without the view and just the model, run:
+    
     ./configure --disable-view
 
 To clear the files made using configure, for example when switching between
 building with and without a view run 
+
     make distclean
 
 If you need to add more sources files, add them to Makefile.am, then run
@@ -42,8 +48,10 @@ before running `./configure` again
 
 If `./configure` has problems finding a C compiler, add your mpi C and C++
 compilers to the lines in configure.ac
+
     AC_PROG_CC([mpicc])
     AC_PROG_CXX([mpic++ mpicxx])
+    
 And run `autoreconf`
 
 
