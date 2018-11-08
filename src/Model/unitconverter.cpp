@@ -1,3 +1,13 @@
+//------------------------------------------------------------------------------------------------------
+// Implementation of theUnitConverter class which contains functions for converting
+// from molecular dynamics units (units convenient for computation) to SI units.
+//
+// Borrowed with permission from: https://github.com/andeplane/molecular-dynamics-fys3150v
+//
+// Small modifications by Timofey Golubev
+//------------------------------------------------------------------------------------------------------
+
+
 #define _USE_MATH_DEFINES
 #include "unitconverter.h"
 #include <iostream>
@@ -34,9 +44,9 @@ void UnitConverter::initializeMDUnits(double sigma, double epsilon) {
     // Fundamental units
     double m0 = 1.66053892e-27;         // 1 amu in SI [kg]
     //double L0 = 1e-10;
-    double L0 = sigma*1.e-10;                // 1 particle diameter in SI [m]
+    double L0 = sigma*1.e-10;           // 1 particle diameter in SI [m]
     double kb = 1.3806488e-23;          // SI [J/K]
-    double E0eV = epsilon;            //epsilon (from coeff. in front of LJ) in in eV
+    double E0eV = epsilon;              //epsilon (from coeff. in front of LJ) in in eV
     double E0 = 1.60217657e-19*E0eV;    // was Ar value  convert epsilon to SI [J]
 
     UnitConverter::m0 = m0;
@@ -48,14 +58,14 @@ void UnitConverter::initializeMDUnits(double sigma, double epsilon) {
     UnitConverter::t0 = L0*sqrt(m0/E0);
     UnitConverter::v0 = L0/t0;
     UnitConverter::F0 = E0/a0;
-    UnitConverter::T0 = E0/kb;  //epsilon/kb  --> epsilon is from LJ
+    UnitConverter::T0 = E0/kb;           //epsilon/kb  --> epsilon is from LJ
     UnitConverter::P0 = E0/(a0*a0*a0);
     UnitConverter::visc0 = P0*t0;
     UnitConverter::diff0 = a0*a0/t0;
     UnitConverter::E0ev = E0eV;
-    UnitConverter::hbar0 = INFINITY; // Not really used, give INF as a warning-ish?
-    UnitConverter::q0 = INFINITY; // Not really used, give INF as a warning-ish?
-    UnitConverter::electricConstant0 = INFINITY; // Not really used, give INF as a warning-ish?
+    UnitConverter::hbar0 = INFINITY;     // Not really used, give INF as a warning
+    UnitConverter::q0 = INFINITY;        // Not really used, give INF as a warning
+    UnitConverter::electricConstant0 = INFINITY; // Not really used, give INF as a warning
 }
 
 void UnitConverter::makeSureInitialized() {

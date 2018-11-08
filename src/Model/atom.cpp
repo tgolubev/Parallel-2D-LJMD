@@ -1,9 +1,16 @@
+//------------------------------------------------------------------------------------------------------
+// Implementation of the Atom class. Simple class to describe particles and be able to reset
+// their velocities
+
+// By: Timofey Golubev
+
+//------------------------------------------------------------------------------------------------------
+
 #include "atom.h"
 #include "random.h"
 #include <math.h>
 #include "global.h"
 #include "mpiatom.h"
-
 
 Atom::Atom(double mass) :
     m_mass(mass)
@@ -30,12 +37,16 @@ void Atom::resetForce()
 
 void Atom::resetVelocityMaxwellian(double temperature)
 {
-    // Resetting the velocity according to a Maxwell-Boltzmann distribution (see http://en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution )
+    // Resetting the velocity according to a Maxwell-Boltzmann distribution
+    //(see http://en.wikipedia.org/wiki/Maxwell%E2%80%93Boltzmann_distribution )
     double boltzmannConstant = 1.0; // In these units, the boltzmann constant equals 1
     double standardDeviation =  sqrt(boltzmannConstant*temperature/mass);
-    velocity.randomGaussian(0, standardDeviation);  //note: randomGaussian is defined in vec2.cpp. arguments(mean, stdev), so this is Gaussian centered about 0
+    velocity.randomGaussian(0, standardDeviation);
+    //note: randomGaussian is defined in vec2.cpp. arguments(mean, stdev), so this is Gaussian centered about 0
 }
 
+
+// Decided agains using Atom MPI data type to pass data since it is simpler and less overhead to just pass 4 doubles: x, y position and x, y velocity
 /*
 void create_MPI_ATOM () {
 
@@ -82,8 +93,6 @@ void create_MPI_ATOM () {
 
         MPI_Get_address(&(atom[0].velocity[1]), &address);
         disp[3] = address - start_address;
-
-
 
         //MPI_Get_address(&(atom[0].m_mass), &address);
         //disp[2] = address - start_address;

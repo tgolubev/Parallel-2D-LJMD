@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------------------------------------
+// Definition of 2D vector class which contains overloaded operators for
+// vector operations
+//
+//------------------------------------------------------------------------------------------------------
+
 #ifndef VEC2_H
 #define VEC2_H
 #include <string>
@@ -30,12 +36,12 @@ public:
     vec2 &operator+=(vec2 rhs);   // Componentwise addition with vector
     vec2 &operator*=(double rhs); // Componentwise multiplication with scalar
     vec2 &operator*=(vec2 rhs);   // Componentwise multiplicationwith vector
-    vec2 &operator*=(int rhs);//Componentwise multiplication with int scalar
+    vec2 &operator*=(int rhs);    //Componentwise multiplication with int scalar
     vec2 &operator-=(double rhs); // Componentwise subtraction with scalar
     vec2 &operator-=(vec2 rhs);   // Componentwise subtraction with vector
     vec2 &operator/=(double rhs); // Componentwise division with scalar
     vec2 &operator/=(vec2 rhs);   // Componentwise division with vector
-    bool operator==(vec2 rhs);  //Check if two vectors are equal componentwise
+    bool operator==(vec2 rhs);    //Check if two vectors are equal componentwise
     friend std::ostream& operator<<(std::ostream& os, const vec2& myVector); // Allows cout << myVector << endl;
 };
 

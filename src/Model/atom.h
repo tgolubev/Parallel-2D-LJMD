@@ -1,5 +1,13 @@
 #ifndef ATOM_H
 #define ATOM_H
+//------------------------------------------------------------------------------------------------------
+// Definition of the Atom class. Simple class to describe particles and be able to reset
+// their velocities
+
+// By: Timofey Golubev
+
+//------------------------------------------------------------------------------------------------------
+
 #include "vec2.h"
 #include "global.h"
 #include <mpi.h>
@@ -15,23 +23,11 @@ public:
     vec2 velocity;
     vec2 force;
     vec2 num_bndry_crossings;  //this is to keep track of boundary crossings for calculating diffusion coeff.
-    int atom_index;  //right now this is not used but can use it to give each atom a label and then track how they move btw processors
+    int atom_index;  
 
 
-    Atom();// for dummy array in create_MPI_ATOM
-   Atom(double mass);
-    //copy constructor
-/*
-    Atom(const Atom& atom){
-        m_mass = atom.m_mass;
-        m_initial_position = atom.m_initial_position;
-        position = atom.position;
-        velocity = atom.velocity;
-        force = atom.force;
-        num_bndry_crossings = atom.num_bndry_crossings;
-        atom_index = atom.atom_index;
-    }
-    */
+    Atom();   // for dummy array in create_MPI_ATOM
+    Atom(double mass);
 
     void setInitialPosition(double x, double y);
     void resetForce();

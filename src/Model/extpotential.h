@@ -1,3 +1,9 @@
+//------------------------------------------------------------------------------------------------------
+// Definition of ExtPotential class for the external electric potential
+//
+// By Timofey Golubev
+//------------------------------------------------------------------------------------------------------
+
 #ifndef EXTPOTENTIAL_H
 #define EXTPOTENTIAL_H
 

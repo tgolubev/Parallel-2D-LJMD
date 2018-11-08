@@ -1,7 +1,13 @@
+//------------------------------------------------------------------------------------------------------
+// Definitions of the LennardJones class. Defines the Lennard Jones Interatomic potential
+// and contains functions to calculate the pairwise forces.
+
+// By: Timofey Golubev
+
+//------------------------------------------------------------------------------------------------------
+
 #ifndef LENNARDJONES_H
 #define LENNARDJONES_H
-
-#include "extpotential.h"
 
 class LennardJones
 {
@@ -13,7 +19,6 @@ private:
     double m_four_epsilon = 4.0*m_epsilon;
     double m_twntyfour_epsilon = 24.0*m_epsilon;
 
-
 public:
     LennardJones() { }
     void calculateForces(class System &system);
@@ -21,7 +26,6 @@ public:
     double sigma() const;
     void setSigma(double sigma);
     double epsilon() const;
-    //double twntyfour_epsilon() const;
     void setEpsilon(double epsilon);
 };
 #endif

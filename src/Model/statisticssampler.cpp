@@ -1,3 +1,11 @@
+//------------------------------------------------------------------------------------------------------
+// Implementation of StatisticsSampler class which contains all functions for calculating physical
+// quantities about the system such as temperature, pressure, etc.
+//
+//
+// Small modifications by Timofey Golubev
+//------------------------------------------------------------------------------------------------------
+
 #include "system.h"
 #include "statisticssampler.h"
 #include "lennardjones.h"
@@ -75,7 +83,7 @@ void StatisticsSampler::sampleKineticEnergy(System &system)
 
     //double mass; //declare here, but value given from main.cpp (set as global var by using "extern" in global.h)
     m_kineticEnergy = 0.; // Remember to reset the value from the previous timestep
-    for(Atom *atom : system.atoms()) {
+    for (Atom *atom : system.atoms()) {
         m_kineticEnergy += 0.5*mass*atom->velocity.lengthSquared();
     }
 }
@@ -111,7 +119,7 @@ void StatisticsSampler::sampleDensity(System &system)
 void StatisticsSampler::sampleDiffusionCoeff(System &system)
 {
     double displacements_sqrd_sum = 0.0;  //reset displacements sum
-    for(Atom *atom : system.atoms()) {
+    for (Atom *atom : system.atoms()) {
         vec2 total_displacement;
         for(int j=0;j<2;j++){
             //takes into account displacement within 1 cell plus displacement due to crossing boundaries into neighboring image cells (PBCs)

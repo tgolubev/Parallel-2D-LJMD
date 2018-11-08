@@ -1,13 +1,36 @@
-//This is a parallelized (using MPI) object oriented molecular dynamics code which relies on many classes. This file allows to control most of the
-//program parameters and choose which simulation approach (NVT, NVE) to use. Certain blocks need
-//to be commented/uncommented to use different approaches.
+//-------------------------------------------------------------------------------------------------------------
+/*                   Parallelized 2D Molecular Dynamics
 
-//Output is a movie.xyz file with atom positions which can allow to create animations in i.e Ovito.
-//Additional system properties such as energies, temperature, pressure, density, diffusion coefficient can be output if desired
-//by using StatisticsSampler class. Output can be made in SI of Lennard Jones units by using UnitConverter class.
-//The frequency of output can be varied as desired. Of course, less frequent output, makes the program run faster.
+          Author: Timofey Golubev with debugging help of Xukun Xiang.
 
-//Author: Timofey Golubev with help of Xukun Xiang based on the code found at https://github.com/andeplane/molecular-dynamics-fys3150.
+ Acknowledgements:
+ Initial inspiration (with permission) for the molecular dynamics code is from
+ the code found at: https://github.com/andeplane/molecular-dynamics-fys3150v.
+
+ Description:
+
+ This is a parallelized (using MPI) object-oriented molecular dynamics code.
+ Parallelization is done using domain decomposition in 1D. The code can simulate
+ the effects on atomic-like particles due to a moving external electric potential.
+ This code is the "Model" portion of a group project on a parallelized interactive
+ real time simulation of molecular dynamics using the Lennard Jones potential,
+ meant for use on a Raspberry Pi supercomputer with an XBox One controller available at:
+ https://github.com/MrHelloBye/Parallel-2D-LJMD
+
+ Technical details:
+ This file allows to control most of the program parameters.
+ Output is a movie.xyz file with atom positions which can allow to create animations in
+ i.e Ovito. Additional system properties such as energies, temperature, pressure, density,
+ diffusion coefficient can be output if desired by using StatisticsSampler class. Output
+ can be made in SI of Lennard Jones units by using UnitConverter class.
+ The frequency of output can be varied as desired. Of course, less frequent output, results
+ in lower CPU time.
+
+ For a description of the molecular dynamics algorithms, see my report at:
+ https://github.com/tgolubev/Computational-Physics-PHY905MSU/blob/master/Project4/molecular_dynamics/Report/Project4.pdf
+
+*/
+//-------------------------------------------------------------------------------------------------------------
 
 #include "global.h"
 #include "random.h"
@@ -22,8 +45,8 @@
 #include <iomanip>
 #include <chrono>
 #include <time.h>
-#include <stdio.h> //for printf
-#include <mpi.h>  //get the mpi functions from here
+#include <stdio.h>
+#include <mpi.h>
 #include "extpotential.h"
 
 #include "../comms.hpp"
@@ -37,20 +60,18 @@ int modelMain(int argc, char **argv)
 {
     int my_id, nprocs;
     
-    //each processor finds out what it's ID (aka rank) is and how many processors there are
-    MPI_Comm_rank(MPI_COMM_WORLD, &my_id);   //find ID
-    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);  //find # of processors
+    // Note: MPI_Init is called in ../main.cpp
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
+    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
 
-    double initialTemperature = 600.;//in K
+    double initialTemperature = 600.;  //in K
     double currentTemperature;
-    double latticeConstant =3.8;    //in angstroms
-    double sigma = 3.4;             //atom/particle diameter in Angstrom for LJ potential
-    double epsilon = 1.0318e-2;     // epsilon from LJ in eV
+    double latticeConstant =3.8;       //in Angstrom
+    double sigma = 3.4;                //atom/particle diameter in Angstrom for LJ potential
+    double epsilon = 1.0318e-2;        // epsilon from LJ in eV
     double side_length;
-
     double total_dt_time= 0.0;
 
-    //all variables will be defined in EACH processor
     vec2 Total_systemSize(36,36); //since using SC lattice--> just gives # of atoms in each dimension
     vec2 subsystemSize;
     subsystemSize[0] = Total_systemSize[0]/(nprocs-1);  //1D parallelization along x
@@ -58,19 +79,16 @@ int modelMain(int argc, char **argv)
 
     vec2 subsystemOrigin; //bottom left corner of each subsystem, this will be defined in each processor seperately
 
-    int StatSample_freq = 10;
-
+    int StatSample_freq = 10;  // statistics sample frequency
     int N_time_steps = 200000; //number of time steps
 
     //for NVT ensemble
     int N_steps = 1;  //number of steps over which to gradually rescale velocities: has to be large enough to prevent instability
-    //using the more basic thermostat of sharp rescaling every 100 steps
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
 
     //Initialize MD units
     UnitConverter::initializeMDUnits(sigma, epsilon);
-    //double mass = UnitConverter::massFromSI(6.63352088e-26); // mass in kg
     initialTemperature = UnitConverter::temperatureFromSI(initialTemperature);
     latticeConstant = UnitConverter::lengthFromAngstroms(latticeConstant);
     double dt = UnitConverter::timeFromSI(2e-15); //
@@ -80,7 +98,7 @@ int modelMain(int argc, char **argv)
     cout << "One unit of time is " << UnitConverter::timeToSI(1.0) << " seconds" << endl;
     cout << "One unit of mass is " << UnitConverter::massToSI(1.0) << " kg" << endl;
     cout << "One unit of temperature is " << UnitConverter::temperatureToSI(1.0) << " K" << endl;
-    cout <<"Epsilon is " << epsilon <<" eV and sigma is " <<sigma <<" in Angstrom" << endl;
+    cout << "Epsilon is " << epsilon << " eV and sigma is " <<sigma <<" in Angstrom" << endl;
     cout << "mass in LJ units" << mass <<endl;
     cout << "timestep in LJ units" <<dt <<endl;
 
@@ -107,7 +125,7 @@ int modelMain(int argc, char **argv)
                 setw(20) << "Time" <<
                 setw(20) << "Temperature(not K!)" <<
                 setw(20) << "KineticEnergy" <<
-
+                setw(20) << "Processor Rank" <<
                 setw(20) << "PotentialEnergy" <<
                 setw(20) << "TotalEnergy" << endl;
     }else{
@@ -119,16 +137,15 @@ int modelMain(int argc, char **argv)
 
     ControllerState controllerState;
 
-    for(int timestep=0; timestep< N_time_steps; timestep++) {
+    for (int timestep = 0; timestep < N_time_steps; timestep++) {
         if(my_id != 0){
             //use controller state to adjust external potential
-           if(timestep % 10 == 0){
+           if (timestep % 10 == 0) {
                //Note: controller positions are in range -1 to 1
-               system.extPotential.position[0] = (controllerState.cursorPos[0] + 1)*0.5*system.systemSize()[0];
-               system.extPotential.position[1] = (controllerState.cursorPos[1] +1)*0.5*system.systemSize()[1];
+               system.extPotential.position[0] = (controllerState.cursorPos[0] + 1) * 0.5*system.systemSize()[0];
+               system.extPotential.position[1] = (controllerState.cursorPos[1] + 1) * 0.5*system.systemSize()[1];
 
-               system.extPotential.setMax(
-                   200. + 200*controllerState.bumper);  //200 is stable when use 1sigma for stdev
+               system.extPotential.setMax(200. + 200*controllerState.bumper);  //200 is stable when use 1sigma for stdev
                system.extPotential.setStdev(
                    UnitConverter::lengthFromAngstroms(
                      (2 + 1.5*controllerState.trigger)*sigma));
@@ -138,20 +155,20 @@ int modelMain(int argc, char **argv)
 
 
             //use sampler to calculate system parameters periodically
-            if(timestep % system.m_sample_freq ==0){
+            if (timestep % system.m_sample_freq == 0){
                 statisticsSampler.sample(system);
             }
 
             //periodically rescale Velocities to keep T constant (NVT ensemble)
-            if(timestep % 100 == 0){
+            if (timestep % 100 == 0) {
                 statisticsSampler.sampleKineticEnergy(system); //temperature sampling uses KE
-                statisticsSampler.sampleTemperature(system); //sample temperature, so can rescale as often as we want
+                statisticsSampler.sampleTemperature(system);   //sample temperature, so can rescale as often as we want
                 currentTemperature = statisticsSampler.temperature();  //this gets the value of temperature member variable
                 //Note: initial temperature is the desired temperature here
                 system.rescaleVelocities(statisticsSampler, currentTemperature, initialTemperature, N_steps);
             }
 
-            if( timestep % 100 == 0 ) {
+            if (timestep % 100 == 0 ) {
                 // Print the timestep and system properties every 100 timesteps
                 /*cout << setw(20) << system.steps() <<
                         setw(20) << system.time() <<
@@ -169,8 +186,6 @@ int modelMain(int argc, char **argv)
             //Get the controller state
             comms_recvControllerState(&controllerState);
         }
-
-
     }
 
     //timing

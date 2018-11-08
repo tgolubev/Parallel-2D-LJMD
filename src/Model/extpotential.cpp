@@ -1,9 +1,14 @@
+//------------------------------------------------------------------------------------------------------
+// Implementation of ExtPotential class for the external electric potential
+//
+// By Timofey Golubev
+//------------------------------------------------------------------------------------------------------
+
 #include <iostream>
 #include "extpotential.h"
 #include "vec2.h"
 #include <cmath>
 #include "system.h"
-
 
 
 void ExtPotential::setPosition(double x, double y){
