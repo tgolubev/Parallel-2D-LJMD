@@ -1,4 +1,9 @@
-
+//--------------------------------------------------------------------------------------------------
+// Definition of a random class
+//
+// Borrowed (with permission) from: https://github.com/andeplane/molecular-dynamics-fys3150.
+//
+//--------------------------------------------------------------------------------------------------
 #ifndef RANDOM_H
 #define RANDOM_H
 #include <random>

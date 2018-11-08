@@ -2,7 +2,7 @@
 // The IO class contains utility functions that can be used for I/O.
 
 // By: Timofey Golubev
-
+// Based (with permission) on the serial skeleton code at https://github.com/andeplane/molecular-dynamics-fys3150.
 //------------------------------------------------------------------------------------------------------
 
 #include "io.h"

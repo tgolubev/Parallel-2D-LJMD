@@ -2,8 +2,12 @@
 
 By Timofey Golubev with help of Xukun Xiang
 
+Acknowledgements:
+  Initial inspiration (with permission) for the molecular dynamics Model code is from
+  the serial skeleton code found at: https://github.com/andeplane/molecular-dynamics-fys3150.
+
 ## Description
-This is a parallelized version of the 2D MD code using OpenMPI (Message Passing Interface).
+This is a parallelized 2D molecular dynamics code using MPI (Message Passing Interface).
 * The parallelization is done via domain decomposition in 1D along the x direction. 
 * Each processor (except the master) has a subsystem for which it performs all calculations. 
 * When atoms move between domains, information is exchanged using Isend and Irecv MPI calls. 

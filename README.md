@@ -1,14 +1,5 @@
 # Parallelized interactive real time simulation of molecular dynamics
 
-The GitHub Repo of this code is: https://github.com/tgolubev/Parallel-2D-LJMD
-
-Authors: Liam Clink, Zane Crawford, Forrest Glines, Timofey Golubev, Xukun Xiang
-
-Acknowledgements:
- Initial inspiration (with permission) for the molecular dynamics Model code is from
- the code found at: https://github.com/andeplane/molecular-dynamics-fys3150v.
- 
-
 ## Description:
 
  This is a Parallelized interactive real time simulation of molecular dynamics 
@@ -19,13 +10,22 @@ Acknowledgements:
  the effects on atomic-like particles due to a moving external electric potential
  which is controlled by the XBox One Controller.
 
- For a description of the molecular dynamics algorithms, see my report at:
+ For a description of general molecular dynamics algorithms, see my report at:
  https://github.com/tgolubev/Computational-Physics-PHY905MSU/blob/master/Project4/molecular_dynamics/Report/Project4.pdf
+
+ The GitHub Repo of this code is: https://github.com/tgolubev/Parallel-2D-LJMD
+
+ Authors: Liam Clink, Zane Crawford, Forrest Glines, Timofey Golubev, Xukun Xiang
+
+ Acknowledgements:
+  Initial inspiration (with permission) for the molecular dynamics Model code is from
+  the serial skeleton code found at: https://github.com/andeplane/molecular-dynamics-fys3150.
  
+
 ## Code structure:
- Model contains the parallelized molecular dynamics calculations (By Timofey Golubev and Xukun Xiang)
- View contains the code for OpenGL real-time visualization (By Liam Clink and Zane Crawford)
- Controller contains code for interacting with the XBox Controller (By Forrest Glines)
+*  Model contains the parallelized molecular dynamics calculations (By Timofey Golubev and Xukun Xiang)
+*  View contains the code for OpenGL real-time visualization (By Liam Clink and Zane Crawford)
+* Controller contains code for interacting with the XBox Controller (By Forrest Glines)
 
 ## Building
 To build with the model and view, run:

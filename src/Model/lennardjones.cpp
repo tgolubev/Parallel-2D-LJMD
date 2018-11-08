@@ -4,6 +4,8 @@
 
 // By: Timofey Golubev with debugging help of Xukun Xiang.
 
+// Based (with permission) on the serial skeleton code at https://github.com/andeplane/molecular-dynamics-fys3150.
+
 //------------------------------------------------------------------------------------------------------
 
 #include "lennardjones.h"

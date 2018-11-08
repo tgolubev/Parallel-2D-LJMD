@@ -2,8 +2,9 @@
 // Implementation of StatisticsSampler class which contains all functions for calculating physical
 // quantities about the system such as temperature, pressure, etc.
 //
-//
-// Small modifications by Timofey Golubev
+// By Timofey Golubev
+// Based (with permission) on the serial skeleton code at https://github.com/andeplane/molecular-dynamics-fys3150.
+// 
 //------------------------------------------------------------------------------------------------------
 
 #include "system.h"
